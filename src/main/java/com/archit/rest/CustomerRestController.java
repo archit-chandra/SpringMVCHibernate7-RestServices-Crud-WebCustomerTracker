@@ -27,6 +27,8 @@ public class CustomerRestController {
     // add mapping for GET "/customers/{customerId}"
     @GetMapping("/customers/{customerId}")
     public Customer getCustomer(@PathVariable int customerId){
+        // by default Jackson returns empty body if object is null (bad customer id)
+        // The correct response should be 404 error + status (not empty body with 200 OK status)
         return customerService.getCustomer(customerId);
     }
 
