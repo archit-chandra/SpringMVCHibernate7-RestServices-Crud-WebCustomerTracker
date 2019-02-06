@@ -44,6 +44,9 @@ public class CustomerRestController {
     // add mapping for POST "/customers" (adding a new customer)
     @PostMapping("/customers")
     public Customer addCustomer(@RequestBody Customer customer) {
+        // set id to 0 explictly, in case any id set in the request body
+        // this will save a new customer instead of update
+        customer.setId(0);
         customerService.saveCustomer(customer);
         return customer;
     }
