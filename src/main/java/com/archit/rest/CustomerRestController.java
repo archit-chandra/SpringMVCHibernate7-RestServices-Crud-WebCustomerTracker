@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.archit.entity.Customer;
+import com.archit.exception.CustomerNotFoundException;
 import com.archit.service.CustomerService;
 
 @RestController
@@ -29,7 +30,13 @@ public class CustomerRestController {
     public Customer getCustomer(@PathVariable int customerId){
         // by default Jackson returns empty body if object is null (bad customer id)
         // The correct response should be 404 error + status (not empty body with 200 OK status)
-        return customerService.getCustomer(customerId);
+        //return customerService.getCustomer(customerId);
+
+        Customer customer = customerService.getCustomer(customerId);
+        if (customer == null) {
+            throw new CustomerNotFoundException("Customer Id not found - " + customerId);
+        }
+        return customer;
     }
 
 }
